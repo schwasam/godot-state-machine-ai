@@ -3,6 +3,7 @@ extends State
 @export var max_wander_range: float = 10.0
 @export var min_wait_time: float = 0.2
 @export var max_wait_time: float = 5.0
+@export var chase_range: float = 4.0
 
 var home_position: Vector3
 
@@ -24,3 +25,7 @@ func navigation_complete() -> void:
 func _wander_to_new_position() -> void:
 	var position = home_position + random_offset() * randf_range(0, max_wander_range)
 	controller.move_to_position(position)
+
+func update(delta: float) -> void:
+	if controller.player_distance < chase_range:
+		state_machine.change_state("Chase")

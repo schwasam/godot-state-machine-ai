@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://b3h4tyngfh0sb"]
+[gd_scene load_steps=17 format=3 uid="uid://b3h4tyngfh0sb"]
 
 [ext_resource type="Material" uid="uid://drm3clvqpis42" path="res://models/terrain/TerrainMaterial.tres" id="1_cd3wg"]
 [ext_resource type="ArrayMesh" uid="uid://cndcxj6gf0smr" path="res://models/terrain/Terrain.obj" id="2_b0grc"]
@@ -7,8 +7,9 @@
 [ext_resource type="Script" path="res://enemy/ai_controller.gd" id="5_1jmlt"]
 [ext_resource type="PackedScene" uid="uid://c2tcjs26j25ww" path="res://models/alien/alien-bug.glb" id="5_k7oqv"]
 [ext_resource type="Script" path="res://enemy/state_machine.gd" id="7_vp3a6"]
-[ext_resource type="Script" path="res://levels/wander_state.gd" id="8_jtppe"]
-[ext_resource type="Script" path="res://levels/chase_state.gd" id="9_qm3io"]
+[ext_resource type="Script" path="res://enemy/wander_state.gd" id="8_jtppe"]
+[ext_resource type="Script" path="res://enemy/chase_state.gd" id="9_qm3io"]
+[ext_resource type="Script" path="res://enemy/flee_state.gd" id="10_dq3gn"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ix18u"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -48,6 +49,7 @@ shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("3_sucmp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+max_run_speed = 10.0
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_ipdtg")
@@ -90,7 +92,7 @@ debug_enabled = true
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("default_state")]
 script = ExtResource("7_vp3a6")
-default_state = NodePath("Chase")
+default_state = NodePath("Wander")
 
 [node name="Wander" type="Node" parent="StateMachine"]
 script = ExtResource("8_jtppe")
@@ -98,6 +100,10 @@ controller_path = NodePath("../../AI")
 
 [node name="Chase" type="Node" parent="StateMachine"]
 script = ExtResource("9_qm3io")
+controller_path = NodePath("../../AI")
+
+[node name="Flee" type="Node" parent="StateMachine"]
+script = ExtResource("10_dq3gn")
 controller_path = NodePath("../../AI")
 
 [connection signal="target_reached" from="AI/NavigationAgent" to="StateMachine" method="_on_navigation_agent_target_reached"]
