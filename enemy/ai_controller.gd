@@ -10,7 +10,7 @@ var is_stopped: bool = false
 var move_direction: Vector3
 var target_y_rotation: float
 
-var look_at_player: bool = true
+var look_at_player: bool = false
 var player_distance: float
 
 @onready var agent: NavigationAgent3D = %NavigationAgent

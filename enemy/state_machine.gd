@@ -7,6 +7,9 @@ var current_state: State
 var states: Dictionary = {}
 
 func _ready() -> void:
+	# nav mesh is not ready immediately at start, so we add a delay
+	await get_tree().create_timer(0.5).timeout
+
 	for child in get_children():
 		if child is State:
 			states[child.name] = child

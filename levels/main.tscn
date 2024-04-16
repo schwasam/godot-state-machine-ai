@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://b3h4tyngfh0sb"]
+[gd_scene load_steps=15 format=3 uid="uid://b3h4tyngfh0sb"]
 
 [ext_resource type="Material" uid="uid://drm3clvqpis42" path="res://models/terrain/TerrainMaterial.tres" id="1_cd3wg"]
 [ext_resource type="ArrayMesh" uid="uid://cndcxj6gf0smr" path="res://models/terrain/Terrain.obj" id="2_b0grc"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://enemy/ai_controller.gd" id="5_1jmlt"]
 [ext_resource type="PackedScene" uid="uid://c2tcjs26j25ww" path="res://models/alien/alien-bug.glb" id="5_k7oqv"]
 [ext_resource type="Script" path="res://enemy/state_machine.gd" id="7_vp3a6"]
+[ext_resource type="Script" path="res://levels/wander_state.gd" id="8_jtppe"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ix18u"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -84,11 +85,15 @@ shape = SubResource("CapsuleShape3D_yvwro")
 
 [node name="NavigationAgent" type="NavigationAgent3D" parent="AI"]
 unique_name_in_owner = true
+debug_enabled = true
 
-[node name="StateMachine" type="Node" parent="."]
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("default_state")]
 script = ExtResource("7_vp3a6")
+default_state = NodePath("Wander")
 
 [node name="Wander" type="Node" parent="StateMachine"]
+script = ExtResource("8_jtppe")
+controller_path = NodePath("../../AI")
 
 [node name="Chase" type="Node" parent="StateMachine"]
 
