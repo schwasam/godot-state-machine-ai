@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b3h4tyngfh0sb"]
+[gd_scene load_steps=14 format=3 uid="uid://b3h4tyngfh0sb"]
 
 [ext_resource type="Material" uid="uid://drm3clvqpis42" path="res://models/terrain/TerrainMaterial.tres" id="1_cd3wg"]
 [ext_resource type="ArrayMesh" uid="uid://cndcxj6gf0smr" path="res://models/terrain/Terrain.obj" id="2_b0grc"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dwxdl6tkvd55k" path="res://models/terrain/Rock_0/Rock.tscn" id="4_y03g1"]
 [ext_resource type="Script" path="res://enemy/ai_controller.gd" id="5_1jmlt"]
 [ext_resource type="PackedScene" uid="uid://c2tcjs26j25ww" path="res://models/alien/alien-bug.glb" id="5_k7oqv"]
+[ext_resource type="Script" path="res://enemy/state_machine.gd" id="7_vp3a6"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ix18u"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -83,3 +84,12 @@ shape = SubResource("CapsuleShape3D_yvwro")
 
 [node name="NavigationAgent" type="NavigationAgent3D" parent="AI"]
 unique_name_in_owner = true
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("7_vp3a6")
+
+[node name="Wander" type="Node" parent="StateMachine"]
+
+[node name="Chase" type="Node" parent="StateMachine"]
+
+[connection signal="target_reached" from="AI/NavigationAgent" to="StateMachine" method="_on_navigation_agent_target_reached"]

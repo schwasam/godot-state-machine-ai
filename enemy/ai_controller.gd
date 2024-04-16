@@ -17,7 +17,7 @@ var player_distance: float
 @onready var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var player: PlayerController = get_tree().get_first_node_in_group("Player")
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if player:
 		player_distance = position.distance_to(player.position)
 
